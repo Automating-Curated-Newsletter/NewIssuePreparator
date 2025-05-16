@@ -1,12 +1,20 @@
 using System;
 
-namespace NewIssuePreparator
+namespace NewIssuePreparator;
+
+class Program
 {
-    class Program
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
+        try
         {
-            Console.WriteLine("Hello World from GitHub Actions!");
+            var config = EnvironmentSetup.InitializeConfiguration();
+            EnvironmentSetup.DisplayConfiguration(config);
+        }
+        catch (ArgumentNullException ex)
+        {
+            Console.WriteLine($"Configuration Error: {ex.Message}");
+            Environment.Exit(1);
         }
     }
-} 
+}
