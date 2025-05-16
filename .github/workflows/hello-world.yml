@@ -8,21 +8,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 9.0.x
         
     - name: Restore dependencies
-      run: dotnet restore
+      run: |
+        dotnet nuget locals all --clear
+        dotnet restore
       working-directory: ./NewIssuePreparator
       
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build --configuration Release
       working-directory: ./NewIssuePreparator
       
     - name: Run
-      run: dotnet run --no-build
+      run: dotnet run --configuration Release
       working-directory: ./NewIssuePreparator 
