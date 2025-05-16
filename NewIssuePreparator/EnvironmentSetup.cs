@@ -29,18 +29,4 @@ public static class EnvironmentSetup
             return null; // This line will never be reached due to Environment.Exit
         }
     }
-
-    public static void DisplayConfiguration(EnvironmentConfig config)
-    {
-        Console.WriteLine("Airtable Configuration:");
-        Console.WriteLine($"API Access Token: {config.Airtable.ApiAccessToken}");
-        Console.WriteLine($"Base ID: {config.Airtable.BaseId}");
-        Console.WriteLine($"Table Name: {config.Airtable.TableName}");
-        Console.WriteLine($"API URL: {config.Airtable.ApiUrl}");
-
-        Console.WriteLine("\nCurated Configuration:");
-        Console.WriteLine($"API Token: {config.Curated.ApiToken}");
-        Console.WriteLine($"API URL: {config.Curated.ApiUrl}");
-        Console.WriteLine($"Publication ID: {config.Curated.PublicationId}");
-    }
 } 
