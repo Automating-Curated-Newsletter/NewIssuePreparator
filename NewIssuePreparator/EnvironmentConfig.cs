@@ -31,8 +31,8 @@ namespace NewIssuePreparator
                     throw new ArgumentNullException("AIRTABLE_TABLE_NAME is not set in environment variables");
                 ApiUrl = Environment.GetEnvironmentVariable("AIRTABLE_API_URL") ?? 
                     throw new ArgumentNullException("AIRTABLE_API_URL is not set in environment variables");
-                FetchFromView = Environment.GetEnvironmentVariable("AIRTABLE_FETCH_FROM_VIEW") ?? 
-                    throw new ArgumentNullException("AIRTABLE_FETCH_FROM_VIEW is not set in environment variables");
+                FetchFromView = Environment.GetEnvironmentVariable("AIRTABLE_VIEW_ID") ?? 
+                    throw new ArgumentNullException("AIRTABLE_VIEW_ID is not set in environment variables");
                 
             }
         }
