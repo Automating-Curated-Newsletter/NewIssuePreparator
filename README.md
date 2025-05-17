@@ -18,6 +18,7 @@ AIRTABLE_API_ACCESS_TOKEN=your_token_here
 AIRTABLE_BASE_ID=your_base_id
 AIRTABLE_TABLE_NAME=your_table_name
 AIRTABLE_API_URL=your_api_url
+AIRTABLE_VIEW_ID=your_view_id
 
 # Curated Configuration
 CURATED_API_TOKEN=your_token_here
@@ -33,6 +34,7 @@ Required Secrets:
 - `AIRTABLE_BASE_ID`: Your Airtable base ID
 - `AIRTABLE_TABLE_NAME`: Your Airtable table name
 - `AIRTABLE_API_URL`: Your Airtable API URL
+- `AIRTABLE_VIEW_ID`: Your Airtable view ID
 - `CURATED_API_TOKEN`: Your Curated API token
 - `CURATED_API_URL`: Your Curated API URL
 - `CURATED_PUBLICATION_ID`: Your Curated publication ID

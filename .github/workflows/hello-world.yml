@@ -12,6 +12,7 @@ jobs:
       AIRTABLE_BASE_ID: ${{ secrets.AIRTABLE_BASE_ID }}
       AIRTABLE_TABLE_NAME: ${{ secrets.AIRTABLE_TABLE_NAME }}
       AIRTABLE_API_URL: ${{ secrets.AIRTABLE_API_URL }}
+      AIRTABLE_VIEW_ID: ${{ secrets.AIRTABLE_VIEW_ID }}
       CURATED_API_TOKEN: ${{ secrets.CURATED_API_TOKEN }}
       CURATED_API_URL: ${{ secrets.CURATED_API_URL }}
       CURATED_PUBLICATION_ID: ${{ secrets.CURATED_PUBLICATION_ID }}
