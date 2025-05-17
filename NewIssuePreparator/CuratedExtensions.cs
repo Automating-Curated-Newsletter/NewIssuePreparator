@@ -28,11 +28,17 @@ public static class CuratedExtensions
     public static async Task<bool> AddLinkToNextIssueAsync(this string CuratedApiEndpoint, string token, CuratedLink link)
     {
         var url = CuratedApiEndpoint.ComposePostUrl(link);
+        Console.WriteLine($"Sending: ({link.Category}) {link.Title}");
 
         using HttpClient client = new();
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", $"token=\"{token}\"");
-        var rawRecords = await client.PostAsync(url, null);
+        var response = await client.PostAsync(url, null);
 
-        return rawRecords.IsSuccessStatusCode;
+        var originalColor = Console.ForegroundColor;
+        Console.ForegroundColor = response.IsSuccessStatusCode ? ConsoleColor.Green : ConsoleColor.Red;
+        Console.WriteLine($"API call {(response.IsSuccessStatusCode ? "successful" : $"failed with status {response.StatusCode}")}");
+        Console.ForegroundColor = originalColor;
+        
+        return response.IsSuccessStatusCode;
     }
 }
