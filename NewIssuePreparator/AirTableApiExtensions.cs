@@ -1,26 +1,42 @@
 ﻿using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
+using static NewIssuePreparator.EnvironmentConfig;
 
 namespace NewIssuePreparator;
 
 public static class AirTableApiExtensions
 {
-    private static string ComposeAirTableApiUrl(this string airTableEndpoint, string? viewId)
+    private static string ComposeAirTableApiUrl(this AirtableConfig airtableConfig)
     {
-        StringBuilder builder = new(airTableEndpoint);
+        StringBuilder builder = new(airtableConfig.ApiUrl);
+        builder.Append($"/{airtableConfig.BaseId}/{airtableConfig.TableName}");
 
-        if (!string.IsNullOrWhiteSpace(viewId))
-            builder.Append($"?view={viewId}");
+        if (!string.IsNullOrWhiteSpace(airtableConfig.FetchFromView))
+            builder.Append($"?view={airtableConfig.FetchFromView}");
 
         return builder.ToString();
     }
 
-    public static async Task<string> GetContentAsync(this string airTableEndpoint, string airTableToken, string? viewId)
+    public static async Task<AirTableRecords?> GetContentAsync(this AirtableConfig airtableConfig)
     {
-        using HttpClient client = new();
-        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", airTableToken);
-        var rawRecords = await client.GetStringAsync(airTableEndpoint.ComposeAirTableApiUrl(viewId));
+        string requestUri = airtableConfig.ComposeAirTableApiUrl();
+
+        AirTableRecords? rawRecords = null;
+        try
+        {
+            using HttpClient client = new();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", airtableConfig.ApiAccessToken);
+            string v = await client.GetStringAsync(requestUri);
+
+            Console.WriteLine(v);
+            
+            rawRecords = v.Parse();
+        }
+        catch(Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
 
         return rawRecords;
     }
@@ -29,10 +45,18 @@ public static class AirTableApiExtensions
     {
         var newRawRecords = rawRecords.Replace(":true", ":\"true\"");
 
-        return JsonSerializer.Deserialize<AirTableRecords>(newRawRecords, new JsonSerializerOptions
+        try
         {
-            PropertyNameCaseInsensitive = true
+            return JsonSerializer.Deserialize<AirTableRecords>(newRawRecords, new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
 
-        });
+            });
+        }
+        catch(Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            return null;
+        }
     }
 }

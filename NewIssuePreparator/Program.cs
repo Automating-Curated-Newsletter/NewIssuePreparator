@@ -10,9 +10,7 @@ class Program
         {
             var config = EnvironmentSetup.InitializeConfiguration();
 
-            var records = (await config.Airtable.ApiUrl.GetContentAsync(
-                config.Airtable.ApiAccessToken, config.Airtable.FetchFromView
-            )).Parse();
+            var records = await config.Airtable.GetContentAsync();
 
             Console.WriteLine($"Records downloaded: {records?.Records.Count()}");
 
@@ -27,9 +25,7 @@ class Program
 
             foreach(var link in nextIssueRecords!)
             {
-                await config.Curated.ApiUrl
-                    .ForPublication(config.Curated.PublicationId)
-                    .AddLinkToNextIssueAsync(config.Curated.ApiToken, link);
+                await config.Curated.AddLinkToNextIssueAsync(link);
             }
         }
         catch (ArgumentNullException ex)

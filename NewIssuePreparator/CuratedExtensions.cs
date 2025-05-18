@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Net.Http.Headers;
 using System.Text;
+using static NewIssuePreparator.EnvironmentConfig;
 
 namespace NewIssuePreparator;
 
@@ -25,13 +26,13 @@ public static class CuratedExtensions
         return builder.ToString();
     }
 
-    public static async Task<bool> AddLinkToNextIssueAsync(this string CuratedApiEndpoint, string token, CuratedLink link)
+    public static async Task<bool> AddLinkToNextIssueAsync(this CuratedConfig curatedConfig, CuratedLink link)
     {
-        var url = CuratedApiEndpoint.ComposePostUrl(link);
+        var url = curatedConfig.ApiUrl.ForPublication(curatedConfig.PublicationId).ComposePostUrl(link);
         Console.WriteLine($"Sending: ({link.Category}) {link.Title}");
 
         using HttpClient client = new();
-        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", $"token=\"{token}\"");
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Token", $"token=\"{curatedConfig.ApiToken}\"");
         var response = await client.PostAsync(url, null);
 
         var originalColor = Console.ForegroundColor;
