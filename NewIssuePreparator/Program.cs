@@ -17,7 +17,7 @@ class Program
             var nextIssueRecords = records?.Records
                 .Where(x => AirTableRecordExtensions.Status(x) == "Next issue")
                 .Where(x => !string.IsNullOrWhiteSpace(x.TargetCategory()))
-                .Take(49)
+                .Take(config.Processing.BatchSize)
                 .Select(CuratedLink.Create)
                 .ToList();
 
@@ -29,6 +29,11 @@ class Program
             }
         }
         catch (ArgumentNullException ex)
+        {
+            Console.WriteLine($"Configuration Error: {ex.Message}");
+            Environment.Exit(1);
+        }
+        catch (ArgumentException ex)
         {
             Console.WriteLine($"Configuration Error: {ex.Message}");
             Environment.Exit(1);

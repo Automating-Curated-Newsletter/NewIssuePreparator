@@ -6,11 +6,13 @@ namespace NewIssuePreparator
     {
         public AirtableConfig Airtable { get; }
         public CuratedConfig Curated { get; }
+        public ProcessingConfig Processing { get; }
 
         public EnvironmentConfig()
         {
             Airtable = new AirtableConfig();
             Curated = new CuratedConfig();
+            Processing = new ProcessingConfig();
         }
 
         public class AirtableConfig
@@ -60,6 +62,31 @@ namespace NewIssuePreparator
                     throw new ArgumentNullException($"{API_URL_KEY} is not set in environment variables");
                 PublicationId = Environment.GetEnvironmentVariable(PUBLICATION_ID_KEY) ?? 
                     throw new ArgumentNullException($"{PUBLICATION_ID_KEY} is not set in environment variables");
+            }
+        }
+
+        public class ProcessingConfig
+        {
+            private const string BATCH_SIZE_KEY = "BATCH_SIZE";
+            private const int DEFAULT_BATCH_SIZE = 49;
+
+            public int BatchSize { get; }
+
+            public ProcessingConfig()
+            {
+                var batchSizeStr = Environment.GetEnvironmentVariable(BATCH_SIZE_KEY);
+                if (string.IsNullOrEmpty(batchSizeStr))
+                {
+                    BatchSize = DEFAULT_BATCH_SIZE;
+                }
+                else if (!int.TryParse(batchSizeStr, out int batchSize) || batchSize <= 0)
+                {
+                    throw new ArgumentException($"Invalid {BATCH_SIZE_KEY} value. Must be a positive integer.");
+                }
+                else
+                {
+                    BatchSize = batchSize;
+                }
             }
         }
     }
