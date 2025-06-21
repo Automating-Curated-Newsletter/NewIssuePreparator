@@ -19,7 +19,7 @@ public static class AirTableRecordExtensions
     public static string Url(this AirTableRecord record) => record.Fields.GetStringOrEmpty("URL");
     public static string Source(this AirTableRecord record) => record.Fields.GetStringOrEmpty("Source");
     public static string Notes(this AirTableRecord record) => record.Fields.GetStringOrEmpty("Notes");
-    public static string TargetCategory(this AirTableRecord record) => record.Fields.GetStringOrEmpty("TargetCategory");
+    public static string? TargetCategory(this AirTableRecord record) => record.Fields.GetStringOrEmpty("TargetCategory");
     public static string NewUrl(this AirTableRecord record) => record.Fields.GetStringOrEmpty("NewURL");
     public static string NewDescription(this AirTableRecord record) => record.Fields.GetStringOrEmpty("NewDescription");
 

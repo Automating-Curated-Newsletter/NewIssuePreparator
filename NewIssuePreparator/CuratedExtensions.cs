@@ -16,7 +16,11 @@ public static class CuratedExtensions
 
         builder.Append($"url={WebUtility.UrlEncode(link.Url)}");
         builder.Append($"&title={WebUtility.UrlEncode(link.Title)}");
-        builder.Append($"&category={WebUtility.UrlEncode(link.Category.ToLower())}");
+        
+        if (!string.IsNullOrWhiteSpace(link.Category))
+        {
+            builder.Append($"&category={WebUtility.UrlEncode(link.Category?.ToLower())}");
+        }
 
         if (!string.IsNullOrWhiteSpace(link.Image))
         {
