@@ -13,7 +13,7 @@ class Program
             Console.WriteLine($"Records downloaded from AirTable: {records?.Records.Count()}");
 
             var nextIssueRecords = records?.Records
-                .Where(x => !string.IsNullOrWhiteSpace(x.TargetCategory()))
+                // .Where(x => !string.IsNullOrWhiteSpace(x.TargetCategory()))
                 .Take(config.Processing.BatchSize)
                 .Select(CuratedLink.Create)
                 .ToList();
