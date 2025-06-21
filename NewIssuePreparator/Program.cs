@@ -2,8 +2,6 @@ namespace NewIssuePreparator;
 
 class Program
 {
-    // private const string ReadyForMigrationStatus = "Ready for Curated";
-
     static async Task Main(string[] args)
     {
         try
@@ -15,7 +13,6 @@ class Program
             Console.WriteLine($"Records downloaded from AirTable: {records?.Records.Count()}");
 
             var nextIssueRecords = records?.Records
-                // .Where(x => AirTableRecordExtensions.Status(x) == ReadyForMigrationStatus)
                 .Where(x => !string.IsNullOrWhiteSpace(x.TargetCategory()))
                 .Take(config.Processing.BatchSize)
                 .Select(CuratedLink.Create)
